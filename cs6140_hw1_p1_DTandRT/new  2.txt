@@ -1,0 +1,2 @@
+housing data mse: 22.63825629658348
+spam data mse: 0.14889141651103865

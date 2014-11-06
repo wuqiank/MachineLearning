@@ -1,0 +1,128 @@
+package bean;
+
+import java.util.Vector;
+
+import Jama.Matrix;
+
+public class LinearRegression {
+
+	Matrix mx_data_points;
+	Matrix mx_labels;
+	
+	/*
+	 * find the best objective J
+	 */
+	public double[] get_objective(Vector<Vector<Double>> dataSet, Vector<Double> label_values) {
+		
+		int x = dataSet.get(0).size();
+		int y = label_values.size();
+		double [][] data_points = new double[y][x + 1];
+		double [] labels = new double[y];
+		double[] objective = new double[x + 1];
+		double learning_rate = 0.001;
+		double loss = 10;
+		double error_sum = 0;
+		
+		for (int i = 0; i < y; i++) {
+			
+			data_points[i][0] = 1;
+			for (int j = 0; j < x; j++) {
+				data_points[i][j+1] = dataSet.get(i).get(j);
+			}
+			labels[i] = label_values.get(i);
+		}
+		
+		for (int i = 0; i < x+1; i++) {
+			objective[i] = 0;
+		}
+		
+		int itr = 1;
+		double p = 0.5;
+		
+		while (itr < 100) {
+			
+			System.out.println("iteration " + itr + ":");
+			
+			for (int i = 0; i < y; i++) {
+				
+				double h = 0;
+				
+				for (int j = 0; j < x+1; j++) {
+					
+					h += objective[j] * data_points[i][j];
+					System.out.println(objective[j] * data_points[i][j]);
+				}
+				
+				error_sum = labels[i] - h;
+				
+				learning_rate = learning_rate / (Math.pow(itr, p));
+				
+				System.out.println("h = " + h);
+				System.out.println("label " + i + " = " + labels[i]);
+				System.out.println("error_sum = " + error_sum);
+				System.out.println("learning_rate: " + learning_rate);
+				
+				for (int j = 0; j < x+1; j++) {
+				
+					objective[j] += learning_rate * error_sum * data_points[i][j];
+					System.out.println("objective " + j + " = " + objective[j]);
+				}
+			}
+			
+			for (int i = 0; i < y; i++) {
+				
+				double sum = 0;
+				for (int j = 0; j < x+1; j++) {
+					
+					sum += objective[j] * data_points[i][j];
+				}
+				loss += (labels[i]-sum)*(labels[i]-sum);
+			}
+			
+			itr++;
+		}
+		
+		
+		for (int k = 0; k < x + 1; k++) {
+			System.out.println(objective[k]);
+		}
+		
+		return objective;
+	}
+	
+	/*
+	 * predict label
+	 */
+	public double get_label(Vector<Double> data_point, double[] objective){
+		
+		double pre_label = 0;
+		
+		for (int i = 1; i < objective.length; i++) {
+
+			pre_label += data_point.get(i - 1) * objective[i];
+		}
+		
+		pre_label += objective[0];
+		
+		return pre_label;
+	}
+	
+	/*
+	 * compute error
+	 */
+	public double get_error(Vector<Vector<Double>> dataSet, Vector<Double> label_values, double[] objective) {
+		
+		int y = label_values.size();
+		double pre_label;
+		double se = 0;
+		
+		for (int i = 0; i < y; i++) {
+			
+			pre_label = this.get_label(dataSet.get(i), objective);
+			se += (pre_label - label_values.get(i)) * (pre_label - label_values.get(i));
+		}
+		
+		return se / y;	
+	}
+	
+}
