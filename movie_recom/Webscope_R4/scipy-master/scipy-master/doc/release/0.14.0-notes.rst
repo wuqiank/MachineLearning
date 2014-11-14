@@ -1,0 +1,64 @@
+==========================
+SciPy 0.14.0 Release Notes
+==========================
+
+.. note:: Scipy 0.14.0 is not released yet!
+
+.. contents::
+
+SciPy 0.14.0 is the culmination of X months of hard work. It contains
+many new features, numerous bug-fixes, improved test coverage and
+better documentation.  There have been a number of deprecations and
+API changes in this release, which are documented below.  All users
+are encouraged to upgrade to this release, as there are a large number
+of bug-fixes and optimizations.  Moreover, our development attention
+will now shift to bug-fix releases on the 0.14.x branch, and on adding
+new features on the master branch.
+
+This release requires Python 2.6, 2.7 or 3.2-3.3 and NumPy 1.5.1 or greater.
+
+
+New features
+============
+
+``scipy.linalg`` improvements
+-----------------------------
+
+Discrete Fourier transform matrix
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The new function `scipy.linalg.dft` computes the matrix of the
+discrete Fourier transform.
+
+``scipy.stats`` improvements
+----------------------------
+
+Multivariate random variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A new class `scipy.stats.multivariate_normal` with functionality for 
+multivariate normal random variables has been added.
+
+
+Deprecated features
+===================
+
+
+Backwards incompatible changes
+==============================
+
+scipy.special.lpmn
+------------------
+
+``lpmn`` no longer accepts complex-valued arguments. A new function
+``clpmn`` with uniform complex analytic behavior has been added, and
+it should be used instead.
+
+
+Other changes
+=============
+
+
+Authors
+=======
+
